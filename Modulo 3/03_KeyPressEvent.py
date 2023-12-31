@@ -7,14 +7,13 @@ class Aplicacion(QWidget):
         super(Aplicacion, self).__init__()
         self.fullscreen = False
         self.lned_1 = QLineEdit(self)
-        self.lned_1.keyPressEvent = self.keyPressEvent()
+        self.lned_1.keyPressEvent = self.keyPressEvent
+        self.lned_2 = QLineEdit(self)
+        self.lned_2.move(0, 80)
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_F11 and self.fullscreen == False:
-            self.showFullScreen()
-            self.fullscreen = True
-        else:
-            self.fullscreen = False
-            self.showNormal()
+        if self.lned_1.hasFocus():
+            print("El evento de presionar la tecla se hizo aquí")
+
 
 
 
