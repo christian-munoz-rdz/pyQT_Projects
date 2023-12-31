@@ -85,12 +85,3 @@ class RegistroUsuario(QWidget):
                 f.write(self.entrada_nombre.text() + " ")
                 f.write(texto_password + "\n")
             self.close()
-
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = RegistroUsuario()
-    window.show()
-
-    sys.exit(app.exec_()).exit(app.exec_())
