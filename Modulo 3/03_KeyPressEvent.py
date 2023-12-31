@@ -12,7 +12,9 @@ class Aplicacion(QWidget):
         self.lned_2.move(0, 80)
     def keyPressEvent(self, event):
         if self.lned_1.hasFocus():
-            print("El evento de presionar la tecla se hizo aquí")
+            if event.text() != "a":
+                print("La tecla presionada en el line edit 1 es diferente a 'a'")
+                return QLineEdit.keyPressEvent(self.lned_1, event)
 
 
 
