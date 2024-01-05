@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton, QSpinBox
 from PyQt5.QtGui import QFont
-from  PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt
 import sys
 
 class Aplicacion(QWidget):
