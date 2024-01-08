@@ -3,6 +3,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 import sys
 
+
 class Calculadora(QWidget):
     def __init__(self):
         super().__init__()
