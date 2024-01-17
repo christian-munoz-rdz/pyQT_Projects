@@ -173,30 +173,118 @@ class Editor(QMainWindow):
         self.setStatusBar(QStatusBar(self))
 
     def centrar_Menu(self):
-        pass
+        escritorio = QDesktopWidget().screenGeometry()
+        ancho = escritorio.width()
+        alto = escritorio.height()
+
+        self.move((ancho - self.width()) //2, (alto - self.height()) //2)
+
     def crear_Barra_Herramientas(self):
         pass
     def widgets_edicion(self):
-        pass
+        self.imagen = QPixmap()
+        self.lbl_img = QLabel()
+        self.lbl_img.setAlignment(Qt.AlignCenter)
+        self.lbl_img.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Ignored)
+        self.setCentralWidget(self.lbl_img)
 
     def abrir_imagen(self):
-        pass
+        imagen, _ = QFileDialog.getOpenFileName(self, "Abrir Imagen", "", "JPG (*.jpg *.jpeg);;PNG (*.png);;GIF (*.gif)")
+
+        if imagen:
+            self.imagen = QPixmap(imagen)
+            self.lbl_img.setPixmap(self.imagen.scaled(self.lbl_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        else:
+            QMessageBox.warning(self, "Error", "No se pudo abrir la imagen", QMessageBox.Ok)
+
     def guardar_imagen(self):
-        pass
+        nombre_archivo, _ = QFileDialog.getSaveFileName(self, "Abrir Imagen", "", "JPG (*.jpg *.jpeg);;PNG (*.png);;GIF (*.gif)")
+
+        if nombre_archivo and self.imagen.isNull() == False:
+            self.imagen.save(nombre_archivo)
+        else:
+            QMessageBox.warning(self, "Error", "No se pudo guardar la imagen", QMessageBox.Ok)
+
     def imprimir_imagen(self):
-        pass
+        printer = QPrinter()
+        printer.setOutputFormat(QPrinter.NativeFormat)
+
+        print_dialog = QPrintDialog(printer)
+
+        if print_dialog.exec_() == QPrintDialog.Accepted:
+            painter = QPainter()
+            painter.begin(printer)
+
+            rect = QRect(painter.viewport())
+
+            size = QSize(self.lbl_img.pixmap().size())
+            size.scale(rect.size(), Qt.KeepAspectRatio)
+
+            painter.setViewport(rect.x(), rect.y(), size.width(), size.height())
+            painter.setWindow(self.lbl_img.pixmap().rect())
+
+            painter.drawPixmap(0, 0, self.lbl_img.pixmap())
+            painter.end()
+
     def rotar_imagen90(self):
-        pass
+        if self.imagen.isNull() == False:
+            tansformacion = QTransform().rotate(90)
+            pixmap = QPixmap(self.imagen)
+
+            rotado  = pixmap.transformed(tansformacion, mode=Qt.SmoothTransformation)
+            self.lbl_img.setPixmap(rotado.scaled(self.lbl_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.imagen = QPixmap(rotado)
+
+            self.lbl_img.update()
+
     def rotar_imagen180(self):
-        pass
+        if self.imagen.isNull() == False:
+            tansformacion = QTransform().rotate(180)
+            pixmap = QPixmap(self.imagen)
+
+            rotado  = pixmap.transformed(tansformacion, mode=Qt.SmoothTransformation)
+            self.lbl_img.setPixmap(rotado.scaled(self.lbl_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.imagen = QPixmap(rotado)
+
+            self.lbl_img.update()
+
     def rotar_hor(self):
-        pass
+        if self.imagen.isNull() == False:
+            tansformacion = QTransform().scale(-1, 1)
+            pixmap = QPixmap(self.imagen)
+
+            rotado  = pixmap.transformed(tansformacion, mode=Qt.SmoothTransformation)
+            self.lbl_img.setPixmap(rotado.scaled(self.lbl_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.imagen = QPixmap(rotado)
+
+            self.lbl_img.update()
+
     def rotar_ver(self):
-        pass
+        if self.imagen.isNull() == False:
+            tansformacion = QTransform().scale(1, -1)
+            pixmap = QPixmap(self.imagen)
+
+            rotado  = pixmap.transformed(tansformacion, mode=Qt.SmoothTransformation)
+            self.lbl_img.setPixmap(rotado.scaled(self.lbl_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.imagen = QPixmap(rotado)
+
+            self.lbl_img.update()
+
     def resize_imagen(self):
-        pass
+        if self.imagen.isNull() == False:
+            tansformacion = QTransform().scale(0.5, 0.5)
+            pixmap = QPixmap(self.imagen)
+
+            rotado  = pixmap.transformed(tansformacion, mode=Qt.SmoothTransformation)
+            self.lbl_img.setPixmap(rotado.scaled(self.lbl_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.imagen = QPixmap(rotado)
+
+            self.lbl_img.update()
+
     def limpiar_imagen(self):
-        pass
+        self.lbl_img.clear()
+        self.imagen = QPixmap()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
